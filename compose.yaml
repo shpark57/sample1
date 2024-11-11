@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  springboot-app:
+    build:
+      context: .  # Dockerfile이 있는 경로
+      dockerfile: Dockerfile  # Dockerfile 이름 (기본적으로 Dockerfile이므로 생략 가능)
+    container_name: springboot-container
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/app/src  # 호스트의 src 디렉토리를 컨테이너에 마운트
+    environment:
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true  # DevTools 재시작 활성화
+      - SPRING_DEVTOOLS_RESTART_INCLUDE=**/*.html,**/*.js,**/*.css  # 변경된 HTML, JS, CSS 파일 반영
+    networks:
+      - app-network
+
+networks:
+  app-network:

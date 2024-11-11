@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Admin 서버 의존성
+    implementation 'de.codecentric:spring-boot-admin-starter-server:2.7.9' // 버전은 필요에 맞게 수정
+    // Spring Boot Actuator 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // Spring Data JPA: JPA 기반으로 데이터베이스와 연동하고, Repository를 통해 데이터를 쉽게 처리할 수 있도록 도와주는 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Spring Security: 웹 애플리케이션에 보안 기능(인증, 권한 관리 등)을 추가하는 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // Thymeleaf: 서버 측 템플릿 엔진으로, HTML 파일을 동적으로 생성하여 데이터를 렌더링하는 데 사용
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Validation: 데이터 유효성 검사를 위한 의존성 (예: @Valid, @NotNull 등의 어노테이션)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // Spring Web: Spring 기반 웹 애플리케이션 개발을 위한 필수 의존성 (RESTful 서비스, JSP, 웹 애플리케이션 등)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring Web Services: SOAP 기반 웹 서비스를 개발하기 위한 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    // Spring Session: 세션을 클러스터 환경에서 관리하고 분산 세션 기능을 제공
+    implementation 'org.springframework.session:spring-session-core'
+    // Thymeleaf Extras for Spring Security: Spring Security와 통합된 Thymeleaf 기능을 제공
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    // Lombok: 반복적인 코드(예: getter, setter, 생성자)를 자동으로 생성해주는 라이브러리
+    compileOnly 'org.projectlombok:lombok'
+    // Spring Boot DevTools: 개발 중에 핫스와핑(코드 변경 즉시 반영), 자동 리로딩 등의 기능을 제공
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // Docker Compose Support: Spring Boot 애플리케이션을 Docker Compose 환경에서 쉽게 실행할 수 있도록 지원
+    //developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+    // PostgreSQL Driver: PostgreSQL 데이터베이스와 연결하기 위한 드라이버
+    runtimeOnly 'org.postgresql:postgresql'
+    // Lombok Annotation Processor: Lombok의 어노테이션을 처리하기 위한 의존성 (컴파일 시 필요)
+    annotationProcessor 'org.projectlombok:lombok'
+    // Spring Boot Test: Spring Boot 애플리케이션을 테스트할 수 있는 스타터 의존성
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // Spring Security Test: Spring Security 관련 테스트를 지원하는 의존성
+    testImplementation 'org.springframework.security:spring-security-test'
+    // JUnit Platform Launcher: JUnit 5 테스트 실행을 위한 런처 의존성
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.bootRun.dependsOn build  // 이 부분을 추가해서 bootRun이 자동으로 build 전에 실행되도록 설정
+
+bootRun {
+    jvmArgs = ["-Dspring.profiles.active=dev", "-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"]
+}

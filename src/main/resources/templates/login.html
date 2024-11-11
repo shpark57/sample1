@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+		<form id="LGIN000M" name="LGIN000M" method="post" th:action="@{/login}">
+		<ul class="loginForm">
+    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<li>
+				<span class="label"><i class="icoUtil_client"></i>태넌트</span>
+				<input type="text" class="input" placeholder="태넌트" id="tenantId" name="tenantId" maxlength="3"  autoComplete="off" onkeyup="if(window.event.keyCode==13){uf_getMlingCd();}"/>
+				<input type="hidden" id="mlingCd" name="mlingCd" maxlength="2" readonly>
+			</li>
+			<li>
+				<span class="label"><i class="icoUtil_id"></i>아이디</span>
+				<input type="text" class="input" placeholder="아이디" id="usrId" name="usrId" maxlength="7"  autoComplete="off" />
+			</li>
+			<li>
+				<span class="label"><i class="icoUtil_pw"></i>패스워드</span>
+				<input type="password" class="input" placeholder="패스워드" id="scrtNo" name="scrtNo" maxlength="20"  autoComplete="off" onkeyup="if(window.event.keyCode==13){uf_Validation();}"/>
+
+			</li>
+			<li class="block">
+				<button type="submit" class="logBtn"><i class="icoUtil_login"></i>로그인</button>
+                <button type="button" class="logBtn" onclick="회원가입();"><i class="icoUtil_login"></i>회원가입</button>
+			</li>
+		</ul>
+		</form>
+</body>
+<script>
+    function 회원가입() {
+        location.href = "/join";
+    }
+
+</script>
+</html>
